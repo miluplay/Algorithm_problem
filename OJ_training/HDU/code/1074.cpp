@@ -30,7 +30,7 @@ int main() {
       dp[i] = INF;
       for (int j = n - 1; j >= 0; j--) {
         int temp = 1 << j;
-        if (!(i & temp)) continue;
+        if (!(i & temp)) continue;//
         int spend = time[i - temp] + subject[j].value - subject[j].end;
         if (spend < 0) spend ^= spend;  //负数变为零
         if (dp[i] > dp[i - temp] + spend) {
@@ -45,3 +45,4 @@ int main() {
   }
   return 0;
 }
+//参考https://www.cnblogs.com/dyhaohaoxuexi/p/11355657.html
