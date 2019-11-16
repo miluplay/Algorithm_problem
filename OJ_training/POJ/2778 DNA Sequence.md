@@ -39,47 +39,69 @@ const int maxn = 15;
 const int mod = 1e5;
 int m, n;
 string str;
-struct Array {
+struct Array
+{
   LL a[111][111];
 } X;
-int GetId(char c) { switch (c) {
-    case 'A':   return 0; case 'C':   return 1;
-    case 'G':   return 2; case 'T':   return 3; }
+int GetId(char c)
+{
+  switch (c)
+  {
+  case 'A':
+    return 0;
+  case 'C':
+    return 1;
+  case 'G':
+    return 2;
+  case 'T':
+    return 3;
+  }
 }
-struct node {
+struct node
+{
   int next[111][4], fail[111], end[111], root, L;
-  int NewNode() {
-    for (int i = 0; i < 4; i++) next[L][i] = -1;
+  int NewNode()
+  {
+    for (int i = 0; i < 4; i++)
+      next[L][i] = -1;
     end[L++] = 0;
     return L - 1;
   }
   void Init() { L = 0, root = NewNode(); }
-  void Insert(string buf) {
+  void Insert(string buf)
+  {
     int length = buf.length(), now = root;
-    for (int i = 0; i < length; i++) {
-      if (next[now][GetId(buf[i])] == -1) next[now][GetId(buf[i])] = NewNode();
+    for (int i = 0; i < length; i++)
+    {
+      if (next[now][GetId(buf[i])] == -1)
+        next[now][GetId(buf[i])] = NewNode();
       now = next[now][GetId(buf[i])];
     }
     end[now] = 1;
   }
-  void Build() {
+  void Build()
+  {
     queue<int> Q;
     fail[root] = root;
     for (int i = 0; i < 4; i++)
       if (next[root][i] == -1)
         next[root][i] = root;
-      else {
+      else
+      {
         fail[next[root][i]] = root;
         Q.push(next[root][i]);
       }
-    while (!Q.empty()) {
+    while (!Q.empty())
+    {
       int now = Q.front();
       Q.pop();
-      if (end[fail[now]]) end[now] = 1;
+      if (end[fail[now]])
+        end[now] = 1;
       for (int i = 0; i < 4; i++)
         if (next[now][i] == -1)
           next[now][i] = next[fail[now]][i];
-        else {
+        else
+        {
           fail[next[now][i]] = next[fail[now]][i];
           Q.push(next[now][i]);
         }
@@ -87,40 +109,51 @@ struct node {
   }
 } ac;
 
-Array multi(Array A, Array B) {  //矩阵乘法
+Array multi(Array A, Array B)
+{ //矩阵乘法
   Array C;
   int n = ac.L;
   memset(C.a, 0, sizeof(C.a));
   int i, j, k;
   for (i = 0; i < n; i++)
-    for (j = 0; j < n; j++) {
-      for (k = 0; k < n; k++) C.a[i][j] += A.a[i][k] * B.a[k][j];
+    for (j = 0; j < n; j++)
+    {
+      for (k = 0; k < n; k++)
+        C.a[i][j] += A.a[i][k] * B.a[k][j];
       C.a[i][j] %= mod;
     }
   return C;
 }
-Array quickly(Array A, int k) {  //矩阵快速幂
+Array quickly(Array A, int k)
+{ //矩阵快速幂
   Array ans;
   memset(ans.a, 0, sizeof(ans.a));
-  for (int i = 0; i < ac.L; i++) ans.a[i][i] = 1;
-  while (k) {
-    if (k & 1) ans = multi(A, ans);
+  for (int i = 0; i < ac.L; i++)
+    ans.a[i][i] = 1;
+  while (k)
+  {
+    if (k & 1)
+      ans = multi(A, ans);
     A = multi(A, A);
     k >>= 1;
   }
   return ans;
 }
-Array ToMatrix(Array A) {  //构建矩阵
+Array ToMatrix(Array A)
+{ //构建矩阵
   memset(A.a, 0, sizeof(A));
   for (int i = 0; i < ac.L; i++)
     for (int j = 0; j < 4; j++)
-      if (!ac.end[ac.next[i][j]]) A.a[i][ac.next[i][j]]++;
+      if (!ac.end[ac.next[i][j]])
+        A.a[i][ac.next[i][j]]++;
   return A;
 }
-int main() {
+int main()
+{
   scanf("%d%d", &m, &n);
   ac.Init();
-  while (m--) {
+  while (m--)
+  {
     cin >> str;
     ac.Insert(str);
   }
@@ -128,7 +161,8 @@ int main() {
   X = ToMatrix(X);
   X = quickly(X, n);
   LL ans = 0;
-  for (int i = 0; i < ac.L; i++) ans = (ans + X.a[0][i]) % mod;
+  for (int i = 0; i < ac.L; i++)
+    ans = (ans + X.a[0][i]) % mod;
   printf("%lld\n", ans);
   return 0;
 }
