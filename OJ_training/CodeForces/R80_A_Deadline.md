@@ -2,7 +2,7 @@
 ### Problem Description
 Adilbek was assigned to a special project. For Adilbek it means that he has n days to run a special program and provide its results. But there is a problem: the program needs to run for d days to calculate the results.
 
-Fortunately, Adilbek can optimize the program. If he spends x (x is a non-negative integer) days optimizing the program, he will make the program run in ⌈dx+1⌉ days (⌈a⌉ is the ceiling function: ⌈2.4⌉=3, ⌈2⌉=2). The program cannot be run and optimized simultaneously, so the total number of days he will spend is equal to x+⌈dx+1⌉.
+Fortunately, Adilbek can optimize the program. If he spends x (x is a non-negative integer) days optimizing the program, he will make the program run in ⌈d/(x+1)⌉ days (⌈a⌉ is the ceiling function: ⌈2.4⌉=3, ⌈2⌉=2). The program cannot be run and optimized simultaneously, so the total number of days he will spend is equal to x+⌈d/(x+1)⌉.
 
 Will Adilbek be able to provide the generated results in no more than n days?
 
@@ -64,6 +64,6 @@ int main() {
 
 ###### Hint
 >In the first test case, Adilbek decides not to optimize the program at all, since d≤n.
->In the second test case, Adilbek can spend 1 day optimizing the program and it will run ⌈52⌉=3 days. In total, he will spend 4 days and will fit in the limit.
->In the third test case, it's impossible to fit in the limit. For example, if Adilbek will optimize the program 2 days, it'll still work ⌈112+1⌉=4 days.
+>In the second test case, Adilbek can spend 1 day optimizing the program and it will run ⌈5/2⌉=3 days. In total, he will spend 4 days and will fit in the limit.
+>In the third test case, it's impossible to fit in the limit. For example, if Adilbek will optimize the program 2 days, it'll still work ⌈11/(2+1)⌉=4 days.
 
